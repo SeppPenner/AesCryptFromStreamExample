@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AesCryptFromStreamExample", "AesCryptFromStreamExample\AesCryptFromStreamExample.csproj", "{8E92DC73-0B0F-4A00-AF02-8FACEE057FCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AesCryptFromStreamExampleUsage", "AesCryptFromStreamExampleUsage\AesCryptFromStreamExampleUsage.csproj", "{5F773858-64B5-43C1-99C7-BBFFE2F2CD98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E92DC73-0B0F-4A00-AF02-8FACEE057FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E92DC73-0B0F-4A00-AF02-8FACEE057FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E92DC73-0B0F-4A00-AF02-8FACEE057FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E92DC73-0B0F-4A00-AF02-8FACEE057FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F773858-64B5-43C1-99C7-BBFFE2F2CD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F773858-64B5-43C1-99C7-BBFFE2F2CD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F773858-64B5-43C1-99C7-BBFFE2F2CD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F773858-64B5-43C1-99C7-BBFFE2F2CD98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B056FA3-2440-4A56-B8C1-59F578199F11}
+	EndGlobalSection
+EndGlobal
