@@ -14,35 +14,35 @@ The assembly was written and tested in .Net 4.6.2.
 ```csharp
 private void Test()
 {
-	var dbConnections = new List<DbConnection>
-	{
-		new DbConnection
-		{
-			ConnectionString = "cloud.asdf.org:user:password",
-			Name = "ASDF cloud"
-		},
-		new DbConnection
-		{
-			ConnectionString = "cloud.asdf2.org:user:password",
-			Name = "ASDF cloud2"
-		}
-	};
-	using (var aesCryptor = new AesCryptor())
-	{
-		aesCryptor.EncryptDbConnectionsToFile("Test.txt", dbConnections, "TestPW");
-		//File Test.txt.aes created with the encrypted data types
-		// ReSharper disable once UnusedVariable
-		var dbConnectionsLoaded = aesCryptor.DecryptFileToDbConnection("Test.txt", "TestPW");
-		//dbConnectionsLoaded contains the stored data types in the file
-	}
+    var dbConnections = new List<DbConnection>
+    {
+        new DbConnection
+        {
+            ConnectionString = "cloud.asdf.org:user:password",
+            Name = "ASDF cloud"
+        },
+        new DbConnection
+        {
+            ConnectionString = "cloud.asdf2.org:user:password",
+            Name = "ASDF cloud2"
+        }
+    };
+    using (var aesCryptor = new AesCryptor())
+    {
+        aesCryptor.EncryptDbConnectionsToFile("Test.txt", dbConnections, "TestPW");
+        //File Test.txt.aes created with the encrypted data types
+        // ReSharper disable once UnusedVariable
+        var dbConnectionsLoaded = aesCryptor.DecryptFileToDbConnection("Test.txt", "TestPW");
+        //dbConnectionsLoaded contains the stored data types in the file
+    }
 }
 ```
 
 ## Additional information:
 This example only works with the AESCrypt library from [NuGet](https://www.nuget.org/packages/SharpAESCrypt.dll/).
 
-You can easily customize the services when changing the DbConnection class, the XmlRootAttribute("DbConnections")
-in the AESCryptor class and the DbConnections class (Especially the [XmlRoot("DbConnections")]) to anything else
+You can easily customize the services when changing the [DbConnection](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnection.cs) class, the XmlRootAttribute("DbConnections")
+in the [AESCryptor](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/AesCryptor.cs) class and the [DbConnections](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnections.cs) class (Especially the [XmlRoot("DbConnections")]) to anything else
 (Maybe even a generic way with T parameter is possible).
 
 
