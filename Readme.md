@@ -2,7 +2,7 @@ AesCryptFromStreamExample
 ====================================
 
 AesCryptFromStreamExample is an assembly/ library to serialize and encrypt data structures from C# as XML string to a file using [AESCrypt](https://www.aescrypt.com/).
-The assembly was written and tested in .Net 4.6.2.
+The assembly was written and tested in .Net 4.7.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/qd124sp96fhwkbgk?svg=true)](https://ci.appveyor.com/project/SeppPenner/aescryptfromstreamexample)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/AesCryptFromStreamExample.svg)](https://github.com/SeppPenner/AesCryptFromStreamExample/issues)
