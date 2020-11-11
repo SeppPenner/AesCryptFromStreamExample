@@ -45,3 +45,8 @@ This example only works with the AESCrypt library from [NuGet](https://www.nuget
 You can easily customize the services when changing the [DbConnection](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnection.cs) class, the `XmlRootAttribute("DbConnections")`
 in the [AESCryptor](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/AesCryptor.cs) class and the [DbConnections](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnections.cs) class (Especially the `[XmlRoot("DbConnections")]`) to anything else
 (Maybe even a generic way with `T` parameter is possible).
+
+Change history
+--------------
+
+See the [Changelog](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/Changelog.md).
