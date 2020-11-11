@@ -2,7 +2,7 @@ AesCryptFromStreamExample
 ====================================
 
 AesCryptFromStreamExample is an assembly/ library to serialize and encrypt data structures from C# as XML string to a file using [AESCrypt](https://www.aescrypt.com/).
-The assembly was written and tested in .Net 4.8.
+The assembly was written and tested in .Net 5.0.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/qd124sp96fhwkbgk?svg=true)](https://ci.appveyor.com/project/SeppPenner/aescryptfromstreamexample)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/AesCryptFromStreamExample.svg)](https://github.com/SeppPenner/AesCryptFromStreamExample/issues)
@@ -45,12 +45,3 @@ This example only works with the AESCrypt library from [NuGet](https://www.nuget
 You can easily customize the services when changing the [DbConnection](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnection.cs) class, the `XmlRootAttribute("DbConnections")`
 in the [AESCryptor](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/AesCryptor.cs) class and the [DbConnections](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnections.cs) class (Especially the `[XmlRoot("DbConnections")]`) to anything else
 (Maybe even a generic way with `T` parameter is possible).
-
-
-Change history
---------------
-
-* **Version 1.0.2.0 (2019-10-13)** : Updated nuget packages, added AssemblyInfo again.
-* **Version 1.0.1.0 (2019-10-05)** : Updated nuget packages, added GitVersionTask.
-* **Version 1.0.0.1 (2019-05-05)** : Updated .Net version to 4.8.
-* **Version 1.0.0.0 (2017-10-31)** : 1.0 release.

@@ -1,14 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using AesCryptFromStreamExample.Datatypes;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="IXmlService.cs" company="Hämmer Electronics">
+//   Copyright (c) All rights reserved.
+// </copyright>
+// <summary>
+//   A service for XML serialization / deserialization.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace AesCryptFromStreamExample.Services
 {
-    /// <inheritdoc />
+    using System;
+    using System.Collections.Generic;
+    using System.Xml.Serialization;
+
+    using AesCryptFromStreamExample.Datatypes;
+
+    /// <inheritdoc cref="IDisposable"/>
     /// <summary>
-    /// A service for XML serialization/ deserialization.
+    /// A service for XML serialization / deserialization.
     /// </summary>
+    /// <seealso cref="IDisposable"/>
     public interface IXmlService : IDisposable
     {
         /// <summary>
