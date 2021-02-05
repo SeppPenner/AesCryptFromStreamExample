@@ -11,7 +11,7 @@ The assembly was written and tested in .Net 5.0.
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/SeppPenner/AesCryptFromStreamExample/master/License.txt)
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/AesCryptFromStreamExample/badge.svg)](https://snyk.io/test/github/SeppPenner/AesCryptFromStreamExample)
 
-## Basic usage:
+## Basic usage
 ```csharp
 private void Test()
 {
@@ -39,7 +39,7 @@ private void Test()
 }
 ```
 
-## Additional information:
+## Additional information
 This example only works with the AESCrypt library from [NuGet](https://www.nuget.org/packages/SharpAESCrypt.dll/).
 
 You can easily customize the services when changing the [DbConnection](https://github.com/SeppPenner/AesCryptFromStreamExample/blob/master/AesCryptFromStreamExample/Datatypes/DbConnection.cs) class, the `XmlRootAttribute("DbConnections")`
