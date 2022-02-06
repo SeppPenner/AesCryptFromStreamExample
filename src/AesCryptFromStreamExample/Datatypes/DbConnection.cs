@@ -21,12 +21,12 @@ namespace AesCryptFromStreamExample.Datatypes
         /// Gets or sets the connection string.
         /// </summary>
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public string ConnectionString { get; set; }
+        public string ConnectionString { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the shown name.
         /// </summary>
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

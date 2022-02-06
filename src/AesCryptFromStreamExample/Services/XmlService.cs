@@ -50,9 +50,8 @@ namespace AesCryptFromStreamExample.Services
         public List<DbConnection> ImportDbConnectionsFromString(string xmlString)
         {
             var xmlSerializer = new XmlSerializer(typeof(DbConnections));
-            var databaseConnections = (DbConnections) xmlSerializer.Deserialize(new StringReader(xmlString));
-            // ReSharper disable once PossibleNullReferenceException
-            return databaseConnections.Items.ToList();
+            var databaseConnections = (DbConnections?) xmlSerializer.Deserialize(new StringReader(xmlString));
+            return databaseConnections?.Items.ToList() ?? new List<DbConnection>();
         }
 
         /// <inheritdoc cref="IDisposable"/>
