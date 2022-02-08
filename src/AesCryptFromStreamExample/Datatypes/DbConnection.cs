@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DbConnection.cs"  company="Hämmer Electronics">
 //   Copyright (c) All rights reserved.
 // </copyright>
@@ -7,26 +7,21 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AesCryptFromStreamExample.Datatypes
+namespace AesCryptFromStreamExample.Datatypes;
+
+/// <summary>
+/// The XML data type of a database connection.
+/// </summary>
+[Serializable]
+public class DbConnection
 {
-    using System;
+    /// <summary>
+    /// Gets or sets the connection string.
+    /// </summary>
+    public string ConnectionString { get; set; } = string.Empty;
 
     /// <summary>
-    /// The XML data type of a database connection.
+    /// Gets or sets the shown name.
     /// </summary>
-    [Serializable]
-    public class DbConnection
-    {
-        /// <summary>
-        /// Gets or sets the connection string.
-        /// </summary>
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public string ConnectionString { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the shown name.
-        /// </summary>
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public string Name { get; set; } = string.Empty;
-    }
+    public string Name { get; set; } = string.Empty;
 }

@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="AesCryptor.cs" company="Hämmer Electronics">
 //   Copyright (c) All rights reserved.
 // </copyright>
@@ -7,127 +7,114 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AesCryptFromStreamExample
+namespace AesCryptFromStreamExample;
+
+/// <inheritdoc cref="IAesCryptor"/>
+/// <summary>
+/// A service to encrypt <see cref="object"/>s and serialize them to a file and vice versa.
+/// </summary>
+/// <seealso cref="IAesCryptor"/>
+public class AesCryptor : IAesCryptor
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
-    using System.Xml.Serialization;
+    /// <summary>
+    /// The XML service.
+    /// </summary>
+    private readonly IXmlService xmlService = new XmlService();
 
-    using AesCryptFromStreamExample.Datatypes;
-    using AesCryptFromStreamExample.Services;
-
-    using Crypt = SharpAESCrypt.SharpAESCrypt;
+    /// <inheritdoc cref="IDisposable"/>
+    /// <summary>
+    /// Disposes the object.
+    /// </summary>
+    /// <seealso cref="IDisposable"/>
+    public void Dispose()
+    {
+        GC.SuppressFinalize(this);
+    }
 
     /// <inheritdoc cref="IAesCryptor"/>
     /// <summary>
-    /// A service to encrypt <see cref="object"/>s and serialize them to a file and vice versa.
+    /// Serializes and encrypts a data <see cref="object"/> to a file.
     /// </summary>
+    /// <param name="fileName">The file to be written to.</param>
+    /// <param name="databaseConnections">The <see cref="List{T}"/> of <see cref="DbConnection"/>s to be serialized.</param>
+    /// <param name="password">The password to encrypt the file with AES.</param>
     /// <seealso cref="IAesCryptor"/>
-    public class AesCryptor : IAesCryptor
+    public void EncryptDbConnectionsToFile(string fileName, List<DbConnection> databaseConnections, string password)
     {
-        /// <summary>
-        /// The XML service.
-        /// </summary>
-        private readonly IXmlService xmlService = new XmlService();
+        var encryptedFile = GetEncryptedFileName(fileName);
+        DeleteFileIfExists(encryptedFile);
+        var xmlString = this.xmlService.SerializeToString(databaseConnections, new XmlRootAttribute("DbConnections"));
+        var encryptedData = EncryptData(xmlString, password);
+        File.WriteAllBytes(encryptedFile, encryptedData);
+    }
 
-        /// <inheritdoc cref="IDisposable"/>
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <seealso cref="IDisposable"/>
-        public void Dispose()
-        {
-        }
+    /// <inheritdoc cref="IAesCryptor"/>
+    /// <summary>
+    /// Decrypts the file and loads a <see cref="List{T}"/> of <see cref="DbConnection"/>s.
+    /// </summary>
+    /// <param name="fileName">The file to be loaded.</param>
+    /// <param name="password">The password to decrypt the data.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="DbConnection"/>s.</returns>
+    /// <seealso cref="IAesCryptor"/>
+    public IEnumerable<DbConnection> DecryptFileToDatabaseConnections(string fileName, string password)
+    {
+        var encryptedFile = GetEncryptedFileName(fileName);
+        var encryptedData = File.ReadAllBytes(encryptedFile);
+        var xmlString = DecryptData(encryptedData, password);
+        return this.xmlService.ImportDbConnectionsFromString(xmlString);
+    }
 
-        /// <inheritdoc cref="IAesCryptor"/>
-        /// <summary>
-        /// Serializes and encrypts a data <see cref="object"/> to a file.
-        /// </summary>
-        /// <param name="fileName">The file to be written to.</param>
-        /// <param name="databaseConnections">The <see cref="List{T}"/> of <see cref="DbConnection"/>s to be serialized.</param>
-        /// <param name="password">The password to encrypt the file with AES.</param>
-        /// <seealso cref="IAesCryptor"/>
-        // ReSharper disable once UnusedMemberInSuper.Global
-        public void EncryptDbConnectionsToFile(string fileName, List<DbConnection> databaseConnections, string password)
-        {
-            var encryptedFile = GetEncryptedFileName(fileName);
-            DeleteFileIfExists(encryptedFile);
-            var xmlString = this.xmlService.SerializeToString(databaseConnections, new XmlRootAttribute("DbConnections"));
-            var encryptedData = EncryptData(xmlString, password);
-            File.WriteAllBytes(encryptedFile, encryptedData);
-        }
+    /// <summary>
+    /// Encrypts the data.
+    /// </summary>
+    /// <param name="normalText">The normal text.</param>
+    /// <param name="password">The password.</param>
+    /// <returns>The encrypted data as <see cref="T:byte[]"/>.</returns>
+    private static byte[] EncryptData(string normalText, string password)
+    {
+        var normalTextBytes = Encoding.UTF32.GetBytes(normalText);
+        using var normalStream = new MemoryStream(normalTextBytes);
+        using var encryptedStream = new MemoryStream();
+        Crypt.Encrypt(password, normalStream, encryptedStream);
+        var encryptedBytes = encryptedStream.ToArray();
+        return encryptedBytes;
+    }
 
-        /// <inheritdoc cref="IAesCryptor"/>
-        /// <summary>
-        /// Decrypts the file and loads a <see cref="List{T}"/> of <see cref="DbConnection"/>s.
-        /// </summary>
-        /// <param name="fileName">The file to be loaded.</param>
-        /// <param name="password">The password to decrypt the data.</param>
-        /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="DbConnection"/>s.</returns>
-        /// <seealso cref="IAesCryptor"/>
-        // ReSharper disable once UnusedMemberInSuper.Global
-        public IEnumerable<DbConnection> DecryptFileToDatabaseConnections(string fileName, string password)
-        {
-            var encryptedFile = GetEncryptedFileName(fileName);
-            var encryptedData = File.ReadAllBytes(encryptedFile);
-            var xmlString = DecryptData(encryptedData, password);
-            return this.xmlService.ImportDbConnectionsFromString(xmlString);
-        }
+    /// <summary>
+    /// Decrypts the data.
+    /// </summary>
+    /// <param name="encryptedData">The encrypted data as <see cref="T:byte[]"/>.</param>
+    /// <param name="password">The password.</param>
+    /// <returns>The decrypted data as <see cref="string"/>.</returns>
+    private static string DecryptData(byte[] encryptedData, string password)
+    {
+        using var encryptedStream = new MemoryStream(encryptedData);
+        using var normalStream = new MemoryStream();
+        Crypt.Decrypt(password, encryptedStream, normalStream);
+        var normalBytes = normalStream.ToArray();
+        var normalText = Encoding.UTF32.GetString(normalBytes);
+        return normalText;
+    }
 
-        /// <summary>
-        /// Encrypts the data.
-        /// </summary>
-        /// <param name="normalText">The normal text.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The encrypted data as <see cref="T:byte[]"/>.</returns>
-        private static byte[] EncryptData(string normalText, string password)
+    /// <summary>
+    /// Deletes the file if it exists.
+    /// </summary>
+    /// <param name="fileName">The file name.</param>
+    private static void DeleteFileIfExists(string fileName)
+    {
+        if (File.Exists(fileName))
         {
-            var normalTextBytes = Encoding.UTF32.GetBytes(normalText);
-            using var normalStream = new MemoryStream(normalTextBytes);
-            using var encryptedStream = new MemoryStream();
-            Crypt.Encrypt(password, normalStream, encryptedStream);
-            var encryptedBytes = encryptedStream.ToArray();
-            return encryptedBytes;
+            File.Delete(fileName);
         }
+    }
 
-        /// <summary>
-        /// Decrypts the data.
-        /// </summary>
-        /// <param name="encryptedData">The encrypted data as <see cref="T:byte[]"/>.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The decrypted data as <see cref="string"/>.</returns>
-        private static string DecryptData(byte[] encryptedData, string password)
-        {
-            using var encryptedStream = new MemoryStream(encryptedData);
-            using var normalStream = new MemoryStream();
-            Crypt.Decrypt(password, encryptedStream, normalStream);
-            var normalBytes = normalStream.ToArray();
-            var normalText = Encoding.UTF32.GetString(normalBytes);
-            return normalText;
-        }
-
-        /// <summary>
-        /// Deletes the file if it exists.
-        /// </summary>
-        /// <param name="fileName">The file name.</param>
-        private static void DeleteFileIfExists(string fileName)
-        {
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
-        }
-
-        /// <summary>
-        /// Gets the encrypted file name from the file name.
-        /// </summary>
-        /// <param name="fileName">The file name.</param>
-        /// <returns>The encrypted file name as <see cref="string"/>.</returns>
-        private static string GetEncryptedFileName(string fileName)
-        {
-            return fileName + ".aes";
-        }
+    /// <summary>
+    /// Gets the encrypted file name from the file name.
+    /// </summary>
+    /// <param name="fileName">The file name.</param>
+    /// <returns>The encrypted file name as <see cref="string"/>.</returns>
+    private static string GetEncryptedFileName(string fileName)
+    {
+        return fileName + ".aes";
     }
 }

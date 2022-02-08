@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Program.cs"  company="Hämmer Electronics">
 //   Copyright (c) All rights reserved.
 // </copyright>
@@ -7,24 +7,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace AesCryptFromStreamExampleUsage
+namespace AesCryptFromStreamExampleUsage;
+
+/// <summary>
+/// The main program class.
+/// </summary>
+public static class Program
 {
-    using System.Collections.Generic;
-
-    using AesCryptFromStreamExample;
-    using AesCryptFromStreamExample.Datatypes;
-
     /// <summary>
-    /// The main program class.
+    /// The main method.
     /// </summary>
-    public static class Program
+    public static void Main()
     {
-        /// <summary>
-        /// The main method.
-        /// </summary>
-        public static void Main()
-        {
-            var databaseConnections = new List<DbConnection>
+        var databaseConnections = new List<DbConnection>
             {
                 new DbConnection
                 {
@@ -38,13 +33,11 @@ namespace AesCryptFromStreamExampleUsage
                 }
             };
 
-            using var aesCryptor = new AesCryptor();
-            // File Test.txt.aes created with the encrypted data types.
-            aesCryptor.EncryptDbConnectionsToFile("Test.txt", databaseConnections, "TestPW");
-            
-            // ReSharper disable once UnusedVariable
-            var databaseConnectionsLoaded = aesCryptor.DecryptFileToDatabaseConnections("Test.txt", "TestPW");
-            // databaseConnectionsLoaded contains the stored data types in the file.
-        }
+        using var aesCryptor = new AesCryptor();
+        // File Test.txt.aes created with the encrypted data types.
+        aesCryptor.EncryptDbConnectionsToFile("Test.txt", databaseConnections, "TestPW");
+
+        var databaseConnectionsLoaded = aesCryptor.DecryptFileToDatabaseConnections("Test.txt", "TestPW");
+        // databaseConnectionsLoaded contains the stored data types in the file.
     }
 }
