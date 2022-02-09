@@ -31,7 +31,6 @@ private void Test()
     {
         aesCryptor.EncryptDbConnectionsToFile("Test.txt", dbConnections, "TestPW");
         //File Test.txt.aes created with the encrypted data types
-        // ReSharper disable once UnusedVariable
         var dbConnectionsLoaded = aesCryptor.DecryptFileToDbConnection("Test.txt", "TestPW");
         //dbConnectionsLoaded contains the stored data types in the file
     }
